@@ -4,7 +4,7 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 	<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	  <Description about="urn:mozilla:install-manifest">
-		<em:id>ChromeWorker@jetpack</em:id>
+		<em:id>PromiseWorker@jetpack</em:id>
 		<em:version>initial</em:version>
 		<em:type>2</em:type>
 		<em:bootstrap>true</em:bootstrap>
@@ -20,8 +20,8 @@
 		</em:targetApplication>
 
 		<!-- Front End MetaData -->
-		<em:name>ChromeWorker</em:name>
-		<em:description>Test addon for testing ChromeWorkers on the fly</em:description>
+		<em:name>PromiseWorker</em:name>
+		<em:description>Test addon for testing PromiseWorkers on the fly</em:description>
 		<em:creator>Noitidart</em:creator>
 	  </Description>
 	</RDF>
