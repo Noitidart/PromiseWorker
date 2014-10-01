@@ -37,7 +37,6 @@ function loadAndSetupWorker() {
 			Services.wm.getMostRecentWindow(null).alert('promise rejected, aReason:' + aReason);
 		}
 	);
-	Services.wm.getMostRecentWindow(null).alert('loadAndSetupWorker done');
 }
 
 function install() {}
@@ -47,7 +46,6 @@ function uninstall() {}
 function startup() {
 	PromiseWorker = Cu.import('chrome://promiseworker/content/modules/PromiseWorker.jsm').BasePromiseWorker;
 	loadAndSetupWorker(); //must do after startup
-	Services.wm.getMostRecentWindow(null).alert('startup done');
 }
  
 function shutdown(aReason) {
