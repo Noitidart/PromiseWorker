@@ -1,3 +1,20 @@
+importScripts('resource://gre/modules/workers/require.js');
+//var PromiseWorker = require('resource://gre/modules/workers/PromiseWorker.js');
+var PromiseWorker = require('chrome://promiseworker/content/modules/workers/PromiseWorker.js');
+
+var worker = new PromiseWorker.AbstractWorker();
+	worker.dispatch = function(method, args = []) {
+	return self[method](...args);
+};
+worker.postMessage = function(result, ...transfers) {
+	self.postMessage(result, ...transfers);
+};
+worker.close = function() {
+	self.close();
+};
+
+self.addEventListener("message", msg => worker.handleMessage(msg));
+
 var user32 = ctypes.open('user32.dll');
 
 var msgBox = user32.declare("MessageBoxW",
@@ -18,3 +35,5 @@ function ask(msg) {
 	var ret = msgBox(0, msg, "Asking Question", MB_YESNO);
 	return ret;
 }
+
+//self.addEventListener("message", msg => self.handleMessage(msg));
