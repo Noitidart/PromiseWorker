@@ -31,9 +31,11 @@ function loadAndSetupWorker() {
 	var promise = myWorker.post('ask', ['do you see this message?']);
 	promise.then(
 		function(aVal) {
+			console.log('promise success, aVal:', aVal);
 			Services.wm.getMostRecentWindow(null).alert('promise success, aVal:' + aVal);
 		},
 		function(aReason) {
+			console.log('promise rejected aReason:', aReason);
 			Services.wm.getMostRecentWindow(null).alert('promise rejected, aReason:' + aReason);
 		}
 	);
