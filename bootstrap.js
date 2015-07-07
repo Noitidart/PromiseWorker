@@ -9,18 +9,6 @@ Cu.import('resource://gre/modules/Services.jsm');
 Cu.import('resource://gre/modules/devtools/Console.jsm');
 Cu.import('resource://gre/modules/Promise.jsm');
 var PromiseWorker;
-/*
-importPromiseWorker();
-function importPromiseWorker() {
-	if (Services.vc.compare(Services.appinfo.version, 33) >= 0) {
-		Services.wm.getMostRecentWindow(null).alert('lo ver: resource://gre/modules/osfile/_PromiseWorker.jsm');
-		PromiseWorker = Cu.import('resource://gre/modules/osfile/_PromiseWorker.jsm').PromiseWorker;
-	} else if (Services.vc.compare(Services.appinfo.version, 32) == 0) {
-		Services.wm.getMostRecentWindow(null).alert('lo ver: resource://gre/modules/osfile/_PromiseWorker.jsm');
-		PromiseWorker = Cu.import('resource://gre/modules/osfile/_PromiseWorker.jsm').PromiseWorker;
-	}
-}
-*/
 
 var myWorker = null;
 function loadAndSetupWorker() {
@@ -28,7 +16,13 @@ function loadAndSetupWorker() {
 		myWorker = new PromiseWorker(self.path + 'myWorker.js');
 	}
 	
-	var promise = myWorker.post('ask', ['do you see this message?']);
+	var arrBuf = new ArrayBuffer(8);
+	console.info('arrBuf.byteLength pre transfer:', arrBuf.byteLength);
+	
+	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], [], [arrBuf]);
+	
+	console.info('arrBuf.byteLength post transfer:', arrBuf.byteLength);
+	
 	promise.then(
 		function(aVal) {
 			console.log('promise success, aVal:', aVal);
