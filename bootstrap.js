@@ -19,9 +19,14 @@ function loadAndSetupWorker() {
 	var arrBuf = new ArrayBuffer(8);
 	console.info('from mainThread - arrBuf.byteLength pre transfer:', arrBuf.byteLength);
 	
+	var timeSend = new Date().getTime();
 	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], null, [arrBuf]);
 	
-	console.info('from mainThread - arrBuf.byteLength post transfer:', arrBuf.byteLength);
+	while(arrBuf.byteLength) {}
+	
+	var timeSent = new Date().getTime();
+	
+	console.info('from mainThread - it took ' + (timeSent - timeSend) + 'ms to send the arrBuf - arrBuf.byteLength post transfer:', arrBuf.byteLength);
 	
 	promise.then(
 		function(aVal) {
