@@ -22,9 +22,9 @@ function sendWorkerArrBuf(aBuf) {
 	
 	setTimeout(function() {
 		console.info('from worker, POST send back aBuf.byteLength:', aBuf.byteLength);
-	}, 5000);
+	}, 1000);
 	
-	return aBuf;
+	return new PromiseWorker.Meta(aBuf, {transfers: [aBuf]});
 	
 }
 

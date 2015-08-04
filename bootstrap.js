@@ -22,11 +22,14 @@ function loadAndSetupWorker() {
 	var timeSend = new Date().getTime();
 	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], null, [arrBuf]);
 	
-	while(arrBuf.byteLength) {}
-	
-	var timeSent = new Date().getTime();
-	
-	console.info('from mainThread - it took ' + (timeSent - timeSend) + 'ms to send the arrBuf - arrBuf.byteLength post transfer:', arrBuf.byteLength);
+	var cWin = Services.wm.getMostRecentWindow('navigator:browser');
+	var myInterval = cWin.setInterval(function() {
+		if (arrBuf.byteLength == 0) {
+			cWin.clearInterval(myInterval);
+			var timeSent = new Date().getTime();
+			console.info('from mainThread - it took ' + (timeSent - timeSend) + 'ms to send the arrBuf - arrBuf.byteLength post transfer:', arrBuf.byteLength);
+		}
+	}, 1);
 	
 	promise.then(
 		function(aVal) {
