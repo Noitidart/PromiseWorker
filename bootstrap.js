@@ -22,6 +22,7 @@ function loadAndSetupWorker() {
 	var timeSend = new Date().getTime();
 	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], null, [arrBuf]);
 	
+	// The reason I watch with setInterval rather then just check arrBuf.byteLength is because .post function of PromiseWorker uses Task.spawn and transfers the data asynchronously: https://dxr.mozilla.org/mozilla-central/source/toolkit/components/promiseworker/PromiseWorker.jsm#263
 	var cWin = Services.wm.getMostRecentWindow('navigator:browser');
 	var myInterval = cWin.setInterval(function() {
 		if (arrBuf.byteLength == 0) {
