@@ -4,16 +4,18 @@ var PromiseWorker = require('chrome://promiseworker/content/modules/workers/Prom
 
 var worker = new PromiseWorker.AbstractWorker();
 worker.dispatch = function(method, args = []) {
-	return self[method](...args);
-};
-worker.postMessage = function(result, ...transfers) {
-	self.postMessage(result, ...transfers);
+  return self[method](...args);
+},
+worker.postMessage = function(...args) {
+  self.postMessage(...args);
 };
 worker.close = function() {
-	self.close();
+  self.close();
 };
-
-self.addEventListener('message', msg => worker.handleMessage(msg));
+worker.log = function(...args) {
+  dump("Worker: " + args.join(" ") + "\n");
+};
+self.addEventListener("message", msg => worker.handleMessage(msg));
 
 var user32 = ctypes.open('user32.dll');
 
