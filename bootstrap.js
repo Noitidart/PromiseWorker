@@ -17,15 +17,15 @@ function loadAndSetupWorker() {
 	}
 	
 	var arrBuf = new ArrayBuffer(8);
-	console.info('arrBuf.byteLength pre transfer:', arrBuf.byteLength);
+	console.info('from mainThread - arrBuf.byteLength pre transfer:', arrBuf.byteLength);
 	
-	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], [], [arrBuf]);
+	var promise = myWorker.post('sendWorkerArrBuf', [arrBuf], null, [arrBuf]);
 	
-	console.info('arrBuf.byteLength post transfer:', arrBuf.byteLength);
+	console.info('from mainThread - arrBuf.byteLength post transfer:', arrBuf.byteLength);
 	
 	promise.then(
 		function(aVal) {
-			console.log('promise success, aVal:', aVal);
+			console.log('from mainThread - promise success, aVal:', aVal, aVal.byteLength);
 			Services.wm.getMostRecentWindow(null).alert('promise success, aVal:' + aVal);
 		},
 		function(aReason) {
