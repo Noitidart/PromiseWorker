@@ -17,6 +17,17 @@ worker.log = function(...args) {
 };
 self.addEventListener("message", msg => worker.handleMessage(msg));
 
+// Define a custom error prototype.
+function CustomError(message) {
+  this.message = message;
+}
+CustomError.prototype.toMsg = function() {
+  return {
+    exn: "CustomError",
+    message: this.message,
+  };
+};
+
 var user32 = ctypes.open('user32.dll');
 
 var msgBox = user32.declare('MessageBoxW',
@@ -38,7 +49,7 @@ function ask(msg) {
 	if (ret == IDYES) {
 		return 'user clicked yes!'; //resolve promise by returning
 	} else {
-		throw new Error('user clicked no so reject the promise'); //reject promise by throwing
+		throw new CustomError('meow'); //reject promise by throwing
 	}
 }
 

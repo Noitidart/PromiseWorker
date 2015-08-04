@@ -28,6 +28,17 @@ function loadAndSetupWorker() {
 		myWorker = new PromiseWorker(self.path + 'myWorker.js');
 	}
 	
+	// Define a custom error prototype.
+	function CustomError(message) {
+	  this.message = message;
+	}
+	CustomError.fromMsg = function(msg) {
+	  return new CustomError(msg.message);
+	};
+
+	// Register a constructor.
+	myWorker.ExceptionHandlers["CustomError"] = CustomError.fromMsg;
+	
 	var promise = myWorker.post('ask', ['do you see this message?']);
 	promise.then(
 		function(aVal) {
