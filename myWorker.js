@@ -26,7 +26,7 @@ function sendWorkerArrBuf(firstArg, aBuf) {
 	}, 1000);
 	
 	return new PromiseWorker.Meta({
-		theBuf: aBuf,
+		theBuf: aBuf, // this buffer will be transferred
 		otherNonTrans: 'this string is not transfered but copied'
 	}, {transfers: [aBuf]});
 	
