@@ -25,7 +25,10 @@ function sendWorkerArrBuf(firstArg, aBuf) {
 		console.info('from worker, POST send back aBuf.byteLength:', aBuf.byteLength);
 	}, 1000);
 	
-	return new PromiseWorker.Meta(aBuf, {transfers: [aBuf]});
+	return new PromiseWorker.Meta({
+		theBuf: aBuf,
+		otherNonTrans: 'this string is not transfered but copied'
+	}, {transfers: [aBuf]});
 	
 }
 
