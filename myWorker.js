@@ -17,8 +17,9 @@ worker.log = function(...args) {
 };
 self.addEventListener("message", msg => worker.handleMessage(msg));
 
-function sendWorkerArrBuf(aBuf) {
+function sendWorkerArrBuf(firstArg, aBuf) {
 	console.info('from worker, PRE send back aBuf.byteLength:', aBuf.byteLength);
+	console.info('firstArg:', firstArg);
 	
 	setTimeout(function() {
 		console.info('from worker, POST send back aBuf.byteLength:', aBuf.byteLength);
