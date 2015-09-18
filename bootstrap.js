@@ -15,28 +15,12 @@ function loadAndSetupWorker() {
 	if (!myWorker) {
 		myWorker = new PromiseWorker(self.path + 'myWorker.js');
 	}
-	
-	var arrBuf = new ArrayBuffer(8);
-	console.info('from mainThread - arrBuf.byteLength pre transfer:', arrBuf.byteLength);
-	
-	var timeSend = new Date().getTime();
-	var promise = myWorker.post('sendWorkerArrBuf', ['arg1', arrBuf], null, [arrBuf]);
-	// can use alternative meta syntax:
-	//var promise = myWorker.post('sendWorkerArrBuf', ['arg1', new PromiseWorker.Meta(arrBuf, {transfers: [arrBuf/*.buffer*/]})]); // MUST use `new` before doing `PromiseWorker.Meta` otherwise it fails // arrBuf is not a TypedArray it is a ArrayBuffer which doesnt have a .buffer attribute so i cannot pass that
-	
-	// The reason I watch with setInterval rather then just check arrBuf.byteLength is because .post function of PromiseWorker uses Task.spawn and transfers the data asynchronously: https://dxr.mozilla.org/mozilla-central/source/toolkit/components/promiseworker/PromiseWorker.jsm#263
-	var cWin = Services.wm.getMostRecentWindow('navigator:browser');
-	var myInterval = cWin.setInterval(function() {
-		if (arrBuf.byteLength == 0) {
-			cWin.clearInterval(myInterval);
-			var timeSent = new Date().getTime();
-			console.info('from mainThread - it took ' + (timeSent - timeSend) + 'ms to send the arrBuf - arrBuf.byteLength post transfer:', arrBuf.byteLength);
-		}
-	}, 1);
+
+	var promise = myWorker.post('getBackMultiArrBufs');
 	
 	promise.then(
 		function(aVal) {
-			console.log('from mainThread - promise success, aVal:', aVal, aVal.byteLength);
+			console.log('from mainThread - promise success, aVal:', aVal, aVal[0].byteLength, aVal[1].byteLength);
 			Services.wm.getMostRecentWindow(null).alert('promise success, aVal:' + aVal);
 		},
 		function(aReason) {
