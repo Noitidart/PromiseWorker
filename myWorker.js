@@ -17,18 +17,17 @@ worker.log = function(...args) {
 };
 self.addEventListener("message", msg => worker.handleMessage(msg));
 
-function sendWorkerArrBuf(firstArg, aBuf) {
-	console.info('from worker, PRE send back aBuf.byteLength:', aBuf.byteLength);
-	console.info('firstArg:', firstArg);
+/////// end boilerplayte
+
+function getBackMultiArrBufs() {
 	
-	setTimeout(function() {
-		console.info('from worker, POST send back aBuf.byteLength:', aBuf.byteLength);
-	}, 1000);
+	var aBuf1 = new ArrayBuffer(10);
+	var aBuf2 = new ArrayBuffer(10);
 	
-	return new PromiseWorker.Meta({
-		theBuf: aBuf, // this buffer will be transferred
-		otherNonTrans: 'this string is not transfered but copied'
-	}, {transfers: [aBuf]});
+	return new PromiseWorker.Meta([
+		aBuf1
+		aBuf2
+	], {transfers: [aBuf1, aBuf2]});
 	
 }
 
