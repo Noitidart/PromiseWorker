@@ -21,14 +21,14 @@ self.addEventListener("message", msg => worker.handleMessage(msg));
 
 function getBackMultiArrBufs() {
 	
-	var aBuf1 = new ArrayBuffer(10);
-	var aBuf2 = new ArrayBuffer(10);
+	var aImgData1 = new ImageData(10, 10);
+	var aImgData2 = new ImageData(10, 10);
 	
 	return new PromiseWorker.Meta([
-			aBuf1,
-			aBuf2
+			aImgData1.data.buffer,
+			aImgData2.data.buffer
 		], {
-			transfers: [aBuf1, aBuf2]
+			transfers: [aImgData1.data.buffer, aImgData2.data.buffer]
 		}
 	);
 	
