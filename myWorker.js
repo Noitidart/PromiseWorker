@@ -24,13 +24,16 @@ function getBackMultiArrBufs() {
 	var aImgData1 = new ImageData(10, 10);
 	var aImgData2 = new ImageData(10, 10);
 	
-	return new PromiseWorker.Meta([
+	var rez = new PromiseWorker.Meta([
 			aImgData1.data.buffer,
 			aImgData2.data.buffer
 		], {
 			transfers: [aImgData1.data.buffer, aImgData2.data.buffer]
 		}
 	);
+	aImgData1 = null;
+	aImgData2 = null;
+	return rez;
 	
 }
 
