@@ -25,9 +25,12 @@ function getBackMultiArrBufs() {
 	var aBuf2 = new ArrayBuffer(10);
 	
 	return new PromiseWorker.Meta([
-		aBuf1
-		aBuf2
-	], {transfers: [aBuf1, aBuf2]});
+			aBuf1,
+			aBuf2
+		], {
+			transfers: [aBuf1, aBuf2]
+		}
+	);
 	
 }
 
