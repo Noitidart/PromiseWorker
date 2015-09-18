@@ -16,7 +16,7 @@ function loadAndSetupWorker() {
 		myWorker = new PromiseWorker(self.path + 'myWorker.js');
 	}
 
-	var promise = myWorker.post('getBackMultiArrBufs');
+	var promise = myWorker.post('getBackMultiArrBufs', []);
 	
 	promise.then(
 		function(aVal) {
